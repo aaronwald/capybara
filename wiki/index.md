@@ -5,16 +5,19 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 ## Sources (2)
 
 - [[requirements-app]] — Android app requirements: categories, due dates, prompt library, wrapper dispatch, targets hermes/openroute/muse (2026-10-04)
-- [[requirements-repo-rules]] — repository rules: ASD-STE100 specs, adversarial review via ponytail + OpenAI Astra, never store keys (2026-10-04)
+- [[requirements-repo-rules]] — repository rules: ASD-STE100 specs, adversarial review via ponytail + openai/gpt-5.6-sol, never store keys (2026-10-04)
 
-## Entities (6)
+## Entities (9)
 
 - [[capybara]] — the Android app this repository builds
+- [[wald]] — repo owner; resolving authority for open questions
 - [[hermes]] — agent harness; dispatch target
-- [[muse]] — agent harness; dispatch target (identity open)
-- [[openai-astra]] — review model for adversarial reviews (identity open)
-- [[openroute]] — dispatch target; probably OpenRouter (identity open)
+- [[muse]] — agent harness; dispatch target; a Meta (Facebook) product — API details to be gathered
+- [[openai-sol]] — `openai/gpt-5.6-sol`; the review model for adversarial reviews
+- [[openai-astra]] — superseded redirect → [[openai-sol]]; name expunged 2026-10-04
+- [[openroute]] — dispatch target; OpenRouter (openrouter.ai), the LLM API gateway
 - [[ponytail]] — minimal-code skill; provides the review command
+- [[pi]] — coding agent harness; hosts the wiki workflows and ponytail
 
 ## Concepts (8)
 
@@ -27,4 +30,10 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 - [[task]] — core object: category, optional due date, dispatch
 - [[wrapper-prompt]] — dispatch round-trip envelope
 
-## Topics (0)
+
+
+## Topics (3)
+
+- [[repo-rules-implementation-status]] — gap analysis of the repository rules; one open item: configure `openai/gpt-5.6-sol` as review model (2026-10-04)
+- [[app-requirements-proposals]] — draft amendments to the app requirements: Q4 JSON return schema, task/category CRUD, task states, failure handling; **approved by wald 2026-10-06** (2026-10-04)
+- [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute live, hermes/muse stubs (2026-10-06)

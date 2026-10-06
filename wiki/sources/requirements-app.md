@@ -7,7 +7,7 @@ updated: 2026-10-04
 
 # App requirements — Capybara (Android)
 
-TL;DR: capybara is an Android [[task]] manager, tested in the [[android-simulator]]. Tasks live in categories with optional due dates. The user sends a task to an [[agent-harness]] with a custom or existing [[prompt]] from a managed prompt library. Dispatch goes through a [[wrapper-prompt]] that makes the agent return structured data — this data updates the task or spawns follow-ups. Targets: [[hermes]], [[openroute]], [[muse]].
+TL;DR: [[capybara]] is an Android [[task]] manager, tested in the [[android-simulator]]. Tasks live in categories with optional due dates. The user sends a task to an [[agent-harness]] with a custom or existing [[prompt]] from a managed prompt library. Dispatch goes through a [[wrapper-prompt]] that makes the agent return structured data — this data updates the task or spawns follow-ups. Targets: [[hermes]], [[openroute]], [[muse]].
 
 ## Key claims
 

@@ -23,3 +23,35 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 ## [2026-10-04] init | schema: ASD-STE100 binding
 - Added "Specification language" section and rule 5 to `AGENTS.md`: all specifications (raw, wiki, LLM-drafted) in ASD-STE100 per R1
 - Updated [[asd-ste100]] to record the schema-level binding
+## [2026-10-04] lint | first health pass — 6 findings, 0 fixes yet (proposed, pending approval)
+- Clean: index synced (16/16 pages, counts match), raw fully ingested (2/2), no orphans, no broken wikilinks
+- Stale: 3 index descriptions still say "identity open" for [[muse]], [[openai-astra]], [[openroute]] though all resolved; qmd embeddings stale (12 orphaned chunks, 10 hashes need vectors)
+- Missing: no pages for [[pi]] (3 mentions) or [[wald]] (5 mentions); [[capybara]] not wikilinked on first mention in 7 pages
+- Tension: [[agent-harness]] frames all 3 targets as harnesses, but [[openroute]] = OpenRouter is an API gateway
+## [2026-10-04] query | Repo rules — implementation status
+- Created topic [[repo-rules-implementation-status]]: per-rule gap analysis; single open item = configure `openai/gpt-5.6-sol` as review model (verify, scope, dry-run `/ponytail-review`)
+- Updated: wiki/index.md
+## [2026-10-04] query | Astra expunged — review model is openai/gpt-5.6-sol
+- Created entity [[openai-sol]] (`openai/gpt-5.6-sol`); superseded [[openai-astra]] to a redirect stub (page kept per rule 2, never deleted)
+- Updated live pages to cite [[openai-sol]]: [[requirements-repo-rules]] (R2.3 correction noted), [[adversarial-review]], [[capybara]], [[ponytail]], [[repo-rules-implementation-status]], wiki/index.md
+- Raw source untouched (immutable); it still says "Astra", the wiki records the correction
+## [2026-10-04] lint | second pass — fixes applied (findings from first pass)
+- Created entities [[wald]], [[pi]]
+- Added [[capybara]] wikilinks at first mention: [[requirements-app]], [[requirements-repo-rules]], [[ponytail]], [[hermes]], [[openroute]], [[muse]], [[openai-sol]], [[agent-harness]], [[android-simulator]], [[asd-ste100]]
+- Resolved agent-harness/openroute tension: recorded on both pages — openroute is an API gateway, "dispatch target" is the accurate frame
+- Added [[pi]] links at first mention in [[requirements-repo-rules]], [[ponytail]]
+- wiki/index.md synced (18 pages + 1 superseded stub)
+- Fixed 2 stale index descriptions ([[muse]], [[openroute]]) missed in the previous pass
+- Verified: no broken wikilinks, 20/20 pages indexed, all raw sources ingested; remaining "Astra" mentions are intentional (naming history on [[openai-sol]], redirect stub)
+## [2026-10-04] query | Scoped models configured for reviews
+- Created `.pi/settings.json` with `enabledModels`: `~z-ai/glm-latest` (default) + `openai/gpt-5.6-sol` ([[openai-sol]]) — Ctrl+P cycles between them
+- [[repo-rules-implementation-status]] open item step 2 of 3 done: verify ✅, scope ✅, dry-run review ⬜
+## [2026-10-04] query | App requirements — proposed amendments
+- Created topic [[app-requirements-proposals]]: Q4 answer (JSON return schema, A4.5–A4.8) + new requirements for task/category CRUD (A2.3–A2.6), task states (A2.7–A2.11), failure handling (A7.1–A7.3); ASD-STE100, all pending wald's approval
+- Updated [[wrapper-prompt]] (Q4 has a proposed schema) and [[task]] (proposed CRUD + statuses)
+- Still open: Android credential mechanism, target selection, raw-return visibility, persistence, follow-up auto-dispatch semantics
+## [2026-10-06] build | MVP build of the capybara app
+- wald approved [[app-requirements-proposals]] as working spec ("go, use defaults"); recorded on that page — raw/ untouched (human-owned)
+- Shipped first build in `app/`: Compose app with task/category CRUD + states, prompt library, wrapper-prompt JSON round trip, dispatch to openroute (hermes/muse stubs), Keystore-backed credentials; 5 unit tests green, verified in emulator AVD `capybara`
+- Created topic [[mvp-implementation]]; updated [[capybara]], [[task]], [[wrapper-prompt]], [[credential-management]] (Android mechanism resolved), wiki/index.md
+- Toolchain: JDK via mise, Gradle 9.6 wrapper, AGP 9.4.1 (built-in Kotlin), compileSdk 37; Android SDK at ~/android-sdk

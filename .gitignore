@@ -1,1 +1,5 @@
 .qmd/
+local.properties
+.gradle/
+build/
+app/build/
