@@ -34,6 +34,6 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 
 ## Topics (3)
 
-- [[repo-rules-implementation-status]] — gap analysis of the repository rules; one open item: configure `openai/gpt-5.6-sol` as review model (2026-10-04)
+- [[repo-rules-implementation-status]] — gap analysis of the repository rules; review loop set up, dry run done 2026-10-06, model-backed pass under openai/gpt-5.6-sol pending wald
 - [[app-requirements-proposals]] — draft amendments to the app requirements: Q4 JSON return schema, task/category CRUD, task states, failure handling; **approved by wald 2026-10-06** (2026-10-04)
 - [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute live, hermes/muse stubs (2026-10-06)
