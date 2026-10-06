@@ -59,3 +59,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Ran /ponytail-review per [[adversarial-review]] before the first release; findings recorded there: 4 cuts applied (−29 lines), okhttp kept for hermes/muse (ceiling noted)
 - Updated [[repo-rules-implementation-status]]: step 3 done as dry run; model-backed pass under openai/gpt-5.6-sol still pending wald
 - Rebuilt, 5/5 tests green, smoke-tested in emulator; committed as c045338
+## [2026-10-06] build | Hermes target wired — dispatch via local OpenAI-compatible proxy
+- Discovered the hermes dispatch mechanism (local `hermes proxy start`, port 8645, /v1/chat/completions, any bearer token, upstream credentials held by hermes — no key in app, satisfies R3); recorded on [[hermes]]
+- Generalized dispatch to OpenAiCompatibleDispatcher: openroute + hermes real, muse stub; Settings gained Hermes proxy URL + model fields; cleartext HTTP limited to 10.0.2.2 via network security config
+- Verified full hermes round trip in emulator against a wire-shape mock on 8645: task done + follow-up draft with due date and prompt (A2.7–A2.11); live round trip waits on `hermes auth add nous`
+- Updated [[mvp-implementation]], [[app-requirements-proposals]] (open items list), wiki/index.md

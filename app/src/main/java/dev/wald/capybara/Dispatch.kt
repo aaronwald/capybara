@@ -20,16 +20,27 @@ interface Dispatcher {
     suspend fun dispatch(payload: String): Result<String>
 }
 
-class OpenRouterDispatcher : Dispatcher {
-    override val name = "openroute"
+// OpenAI-compatible chat completions: covers openroute (openrouter.ai) and
+// hermes (local proxy from `hermes proxy start`, any bearer token, upstream
+// credentials are managed by hermes itself per R3).
+class OpenAiCompatibleDispatcher(
+    override val name: String,
+    private val baseUrl: () -> String,
+    private val model: () -> String,
+    private val key: () -> String,
+) : Dispatcher {
     private val client = OkHttpClient()
 
     override suspend fun dispatch(payload: String): Result<String> = withContext(Dispatchers.IO) {
         runCatching {
-            val key = Credentials.openRouterKey
-            require(key.isNotEmpty()) { "Set the OpenRouter API key in Settings." }
+            val base = baseUrl().trimEnd('/')
+            require(base.isNotEmpty()) { "Set the $name endpoint URL in Settings." }
+            val model = model()
+            require(model.isNotEmpty()) { "Set the $name model id in Settings." }
+            val key = key()
+            require(key.isNotEmpty()) { "Set the $name API key in Settings." }
             val body = buildJsonObject {
-                put("model", Credentials.openRouterModel)
+                put("model", model)
                 put("messages", buildJsonArray {
                     add(buildJsonObject {
                         put("role", "user")
@@ -38,7 +49,7 @@ class OpenRouterDispatcher : Dispatcher {
                 })
             }
             val request = Request.Builder()
-                .url("https://openrouter.ai/api/v1/chat/completions")
+                .url("$base/chat/completions")
                 .header("Authorization", "Bearer $key")
                 .post(body.toString().toRequestBody("application/json".toMediaType()))
                 .build()
@@ -53,17 +64,27 @@ class OpenRouterDispatcher : Dispatcher {
     }
 }
 
-// A5: hermes and muse stay selectable targets; their endpoints are not wired yet.
+// A5.4: muse stays a selectable target; its endpoint is not known yet.
 class UnconfiguredDispatcher(override val name: String) : Dispatcher {
     override suspend fun dispatch(payload: String): Result<String> = Result.failure(
-        IllegalStateException("$name: dispatch endpoint is not configured yet. MVP ships openroute only.")
+        IllegalStateException("$name: dispatch endpoint is not configured yet. MVP ships openroute and hermes.")
     )
 }
 
 object Targets {
     val all: List<Dispatcher> = listOf(
-        OpenRouterDispatcher(),
-        UnconfiguredDispatcher("hermes"),
+        OpenAiCompatibleDispatcher(
+            "openroute",
+            baseUrl = { "https://openrouter.ai/api/v1" },
+            model = { Credentials.openRouterModel },
+            key = { Credentials.openRouterKey },
+        ),
+        OpenAiCompatibleDispatcher(
+            "hermes",
+            baseUrl = { Credentials.hermesProxyUrl },
+            model = { Credentials.hermesModel },
+            key = { "capybara" }, // the proxy attaches real credentials; any token passes
+        ),
         UnconfiguredDispatcher("muse"),
     )
 

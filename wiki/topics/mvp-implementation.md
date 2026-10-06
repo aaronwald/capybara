@@ -15,7 +15,7 @@ First working build of [[capybara]] (2026-10-06), shipped in `app/` at the repo 
 - Tasks grouped by category with optional due dates; task/category CRUD (A2.3–A2.6); task states `draft`/`dispatched`/`done`/`failed` (A2.7–A2.11).
 - [[prompt]] library CRUD (A3); each dispatch uses a custom prompt or a saved one.
 - [[wrapper-prompt]] envelope with the JSON return schema (A4.5–A4.8); parses plain and fenced JSON; a reply that breaks the schema counts as failure (A7.2).
-- Dispatch behind one `Dispatcher` interface (A5): [[openroute]] fully wired (OpenRouter chat completions; model configurable in settings, default `openai/gpt-5.6-sol` per [[openai-sol]]); [[hermes]] and [[muse]] are selectable stubs that fail with a clear error until their endpoints are wired.
+- Dispatch behind one `OpenAiCompatibleDispatcher` (A5): [[openroute]] fully wired (OpenRouter chat completions; model configurable in settings, default `openai/gpt-5.6-sol` per [[openai-sol]]); [[hermes]] fully wired to the local `hermes proxy start` OpenAI-compatible endpoint (default `http://10.0.2.2:8645/v1` from the emulator; any bearer token — credentials live in hermes, not the app); [[muse]] is a selectable stub until its endpoint is known.
 - Failure handling (A7.1–A7.3): a failed dispatch sets the task to `failed`, records the error on the task, and shows it to the user.
 - Credentials: the OpenRouter key is pasted in Settings and held in Android Keystore-backed EncryptedSharedPreferences — this resolves the open Android credential question; see [[credential-management]].
 - Persistence: the whole app state is one JSON file (`files/state.json`) — `ponytail:` minimalism, Room deferred until queries outgrow a linear scan.
@@ -24,7 +24,7 @@ First working build of [[capybara]] (2026-10-06), shipped in `app/` at the repo 
 
 ## Verified in the emulator (2026-10-06)
 
-Task list by category; task create/edit; dispatch to the hermes stub (status `failed`, error recorded and shown); prompt add; saved prompt selectable in the dispatch dropdown. OpenRouter round trip not yet exercised live — no key loaded.
+Task list by category; task create/edit; dispatch to the hermes stub (status `failed`, error recorded and shown); prompt add; saved prompt selectable in the dispatch dropdown. Later the same day: **full hermes round trip verified against a local mock of the proxy's wire shape** on port 8645 — task went `done` with result text, one follow-up created as a draft in the parent's category with its due date and prompt (A2.10/A2.11). The live round trip through the real proxy waits on `hermes auth add nous` (both upstreams showed "not logged in"). The OpenRouter round trip is not yet exercised live — no key loaded.
 
 ## Deliberately skipped (ponytail: ceilings named)
 
@@ -32,7 +32,9 @@ Task list by category; task create/edit; dispatch to the hermes stub (status `fa
 - Follow-ups are created as drafts; the app never auto-dispatches them (open question in [[app-requirements-proposals]]).
 - The raw agent reply is not shown beyond `result_text`.
 - No release signing or minification; debug APK only.
-- [[hermes]]/[[muse]] endpoints unknown — [[muse]] product details still to be gathered.
+- [[hermes]]/[[muse]] endpoints: hermes is wired (see [[hermes]]); [[muse]] product details still to be gathered.
+- Cleartext HTTP is permitted only to `10.0.2.2` (the emulator's host alias) via a network security config; everything else stays https-only.
+- The hermes proxy URL default assumes the emulator; a real phone needs a LAN URL in Settings.
 
 ## Related
 - [[capybara]], [[requirements-app]], [[app-requirements-proposals]], [[wrapper-prompt]], [[prompt]], [[task]], [[credential-management]], [[android-simulator]], [[openroute]], [[hermes]], [[muse]], [[openai-sol]], [[ponytail]]

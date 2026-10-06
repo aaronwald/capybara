@@ -393,10 +393,20 @@ private fun PromptDialog(prompt: Prompt, onDismiss: () -> Unit, onOk: (String, S
 fun SettingsScreen() {
     var key by remember { mutableStateOf(Credentials.openRouterKey) }
     var model by remember { mutableStateOf(Credentials.openRouterModel) }
+    var hermesUrl by remember { mutableStateOf(Credentials.hermesProxyUrl) }
+    var hermesModel by remember { mutableStateOf(Credentials.hermesModel) }
     var saved by remember { mutableStateOf(false) }
 
+    fun save() {
+        Credentials.openRouterKey = key.trim()
+        Credentials.openRouterModel = model.trim()
+        Credentials.hermesProxyUrl = hermesUrl.trim()
+        Credentials.hermesModel = hermesModel.trim()
+        saved = true
+    }
+
     Column(
-        Modifier.fillMaxSize().padding(16.dp),
+        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text("Settings", style = MaterialTheme.typography.headlineSmall)
@@ -412,10 +422,20 @@ fun SettingsScreen() {
             label = { Text("OpenRouter model id") },
             modifier = Modifier.fillMaxWidth(),
         )
-        TextButton(onClick = { Credentials.openRouterKey = key.trim(); Credentials.openRouterModel = model.trim(); saved = true }) {
-            Text("Save")
-        }
-        if (saved) Text("Saved. The key stays in Android Keystore-backed storage.", color = Color(0xFF2E7D32))
+        OutlinedTextField(
+            value = hermesUrl,
+            onValueChange = { hermesUrl = it; saved = false },
+            label = { Text("Hermes proxy URL") },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        OutlinedTextField(
+            value = hermesModel,
+            onValueChange = { hermesModel = it; saved = false },
+            label = { Text("Hermes model id") },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        TextButton(onClick = { save() }) { Text("Save") }
+        if (saved) Text("Saved. Keys stay in Android Keystore-backed storage.", color = Color(0xFF2E7D32))
     }
 }
 

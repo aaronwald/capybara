@@ -11,7 +11,7 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 
 - [[capybara]] — the Android app this repository builds
 - [[wald]] — repo owner; resolving authority for open questions
-- [[hermes]] — agent harness; dispatch target
+- [[hermes]] — agent harness; dispatch target; app dispatches via its local OpenAI-compatible proxy (port 8645)
 - [[muse]] — agent harness; dispatch target; a Meta (Facebook) product — API details to be gathered
 - [[openai-sol]] — `openai/gpt-5.6-sol`; the review model for adversarial reviews
 - [[openai-astra]] — superseded redirect → [[openai-sol]]; name expunged 2026-10-04
@@ -36,4 +36,4 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 
 - [[repo-rules-implementation-status]] — gap analysis of the repository rules; review loop set up, dry run done 2026-10-06, model-backed pass under openai/gpt-5.6-sol pending wald
 - [[app-requirements-proposals]] — draft amendments to the app requirements: Q4 JSON return schema, task/category CRUD, task states, failure handling; **approved by wald 2026-10-06** (2026-10-04)
-- [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute live, hermes/muse stubs (2026-10-06)
+- [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute + hermes wired, muse stub (2026-10-06)

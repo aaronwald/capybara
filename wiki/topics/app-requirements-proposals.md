@@ -64,8 +64,7 @@ No requirement says what happens when dispatch fails. New requirements for a new
 
 ## Still open (not covered by this proposal)
 
-- Credential mechanism on Android (A6 says what not to do, not how auth works per [[credential-management]]).
-- Target selection per dispatch, visibility of raw returns, local persistence, follow-up `prompt` semantics (does the app auto-dispatch follow-ups?).
+Status 2026-10-06: credential mechanism on Android — resolved (see [[credential-management]]); target selection per dispatch — implemented; local persistence — implemented; follow-up `prompt` semantics — implemented as drafts with a stored prompt, no auto-dispatch. Still open: visibility of raw returns beyond `result_text`.
 
 Per [[adversarial-review]], run a review of the accepted text before it goes into the raw layer.
 
