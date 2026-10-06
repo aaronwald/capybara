@@ -36,4 +36,4 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 
 - [[repo-rules-implementation-status]] — gap analysis of the repository rules; review loop closed 2026-10-07: model-backed pass under openai/gpt-5.6-sol done, lean
 - [[app-requirements-proposals]] — draft amendments to the app requirements: Q4 JSON return schema, task/category CRUD, task states, failure handling; **approved by wald 2026-10-06** (2026-10-04)
-- [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute + hermes wired, muse stub (2026-10-06)
+- [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute round trip verified live 2026-10-07, hermes mock-verified (live waits on auth), muse backlogged

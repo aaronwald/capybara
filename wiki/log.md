@@ -71,3 +71,7 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Closed the open work item in [[repo-rules-implementation-status]]; recorded the pass on [[adversarial-review]]; index.md updated
 ## [2026-10-07] review | Review cuts applied
 - Applied the 2 findings from the model-backed pass (byName dead fallback, encodeDefaults); 5/5 tests green, APK rebuilt; committed b731433; [[adversarial-review]] updated
+## [2026-10-07] test | OpenRouter live round trip verified
+- wald supplied the OpenRouter key (in /tmp, loaded into the app via Settings on the emulator); held in Keystore-backed storage per A6, never written to the repo
+- Live dispatch to openai/gpt-5.6-sol: task done with result_text, one follow-up created as draft with due date (A2.7–A2.11); UI-verified in emulator
+- Updated [[mvp-implementation]], [[openroute]], index.md. Remaining live target: hermes (waits on `hermes auth add nous`)

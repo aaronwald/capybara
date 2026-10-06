@@ -24,7 +24,9 @@ First working build of [[capybara]] (2026-10-06), shipped in `app/` at the repo 
 
 ## Verified in the emulator (2026-10-06)
 
-Task list by category; task create/edit; dispatch to the hermes stub (status `failed`, error recorded and shown); prompt add; saved prompt selectable in the dispatch dropdown. Later the same day: **full hermes round trip verified against a local mock of the proxy's wire shape** on port 8645 — task went `done` with result text, one follow-up created as a draft in the parent's category with its due date and prompt (A2.10/A2.11). The live round trip through the real proxy waits on `hermes auth add nous` (both upstreams showed "not logged in"). The OpenRouter round trip is not yet exercised live — no key loaded.
+Task list by category; task create/edit; dispatch to the hermes stub (status `failed`, error recorded and shown); prompt add; saved prompt selectable in the dispatch dropdown. Later the same day: **full hermes round trip verified against a local mock of the proxy's wire shape** on port 8645 — task went `done` with result text, one follow-up created as a draft in the parent's category with its due date and prompt (A2.10/A2.11). The live round trip through the real proxy waits on `hermes auth add nous` (both upstreams showed "not logged in").
+
+2026-10-07: **OpenRouter round trip verified live** — wald supplied the key (loaded into Settings via the emulator; held in Keystore storage per A6, never in the repo), dispatch to `openai/gpt-5.6-sol` returned `done` with result text, and one follow-up was created as a draft with its due date (A2.7–A2.11). Verified in the UI: parent task `done` + result, follow-up `draft` with due 2026-10-14.
 
 ## Deliberately skipped (ponytail: ceilings named)
 
