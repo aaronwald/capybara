@@ -64,3 +64,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Generalized dispatch to OpenAiCompatibleDispatcher: openroute + hermes real, muse stub; Settings gained Hermes proxy URL + model fields; cleartext HTTP limited to 10.0.2.2 via network security config
 - Verified full hermes round trip in emulator against a wire-shape mock on 8645: task done + follow-up draft with due date and prompt (A2.7–A2.11); live round trip waits on `hermes auth add nous`
 - Updated [[mvp-implementation]], [[app-requirements-proposals]] (open items list), wiki/index.md
+## [2026-10-06] query | Muse backlogged
+- wald: no muse work until openroute and hermes are verified live; recorded on [[muse]], index.md updated
+## [2026-10-07] review | Model-backed /ponytail-review — R2 gate pass
+- wald switched the session to openai/gpt-5.6-sol and ran /ponytail-review over the full app codebase: lean, 2 findings (Dispatch.kt byName dead fallback, Model.kt encodeDefaults), net −2 lines, not yet applied
+- Closed the open work item in [[repo-rules-implementation-status]]; recorded the pass on [[adversarial-review]]; index.md updated

@@ -6,7 +6,6 @@ import kotlinx.serialization.json.Json
 // Shared JSON config: the agent reply is third-party data, unknown keys must not break the parse.
 val AppJson = Json {
     ignoreUnknownKeys = true
-    encodeDefaults = true
 }
 
 @Serializable

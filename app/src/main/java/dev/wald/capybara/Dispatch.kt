@@ -88,7 +88,7 @@ object Targets {
         UnconfiguredDispatcher("muse"),
     )
 
-    fun byName(name: String): Dispatcher = all.find { it.name == name } ?: all.first()
+    fun byName(name: String): Dispatcher = all.first { it.name == name }
 }
 
 // A4.1/A4.2: the wrapper prompt envelope with the return schema (A4.5-A4.8)
