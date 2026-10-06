@@ -2,7 +2,7 @@
 type: topic
 sources: [requirements-repo-rules, adversarial-review, credential-management, openai-sol]
 created: 2026-10-04
-updated: 2026-10-04
+updated: 2026-10-06
 ---
 
 # Repo rules — implementation status
@@ -23,7 +23,7 @@ The current agent session runs `z-ai/glm-latest` via openrouter; the review mode
 
 1. Verify `openai/gpt-5.6-sol` exists on the provider. — done 2026-10-04 (in the openrouter catalog)
 2. Make it available for reviews: scoped model list or a `models.json` entry. — done 2026-10-04 (`.pi/settings.json` `enabledModels`, Ctrl+P cycle)
-3. Run one dry-run `/ponytail-review` with it before the first real release to confirm the review loop works end-to-end.
+3. Run one dry-run `/ponytail-review` with it before the first real release to confirm the review loop works end-to-end. — dry run done 2026-10-06 on the MVP diff (per [[adversarial-review]]), applied −29 lines. The dry run ran on the session default model; the model-backed pass under `openai/gpt-5.6-sol` remains for wald to trigger (Ctrl+P, then `/ponytail-review`).
 
 ## Related
 

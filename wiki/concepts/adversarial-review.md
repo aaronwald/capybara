@@ -1,8 +1,8 @@
 ---
 type: concept
-sources: [requirements-repo-rules]
+sources: [requirements-repo-rules, app-requirements-proposals]
 created: 2026-10-04
-updated: 2026-10-04
+updated: 2026-10-06
 ---
 
 # Adversarial review
@@ -10,6 +10,8 @@ updated: 2026-10-04
 The pre-release quality gate (R2 in [[requirements-repo-rules]]): before each release, review the current diff adversarially — hunt for over-engineering. No release skips it.
 
 Tooling: the [[ponytail]] skill's `/ponytail-review` command, which hands back a delete-list. Review model: `openai/gpt-5.6-sol` — see [[openai-sol]] (confirmed 2026-10-04; the "Astra" name from the requirements is expunged).
+
+**First dry run (2026-10-06):** ran against the MVP diff before the first release ([[mvp-implementation]]). Findings: 4 cuts applied (dispatch() re-signatured to 3 params, merged duplicate store lookups, Store commit() refactor, dead NameDialog param) for −29 lines; okhttp kept for the coming hermes/muse endpoints (swap ceiling noted). The dry run used the session's default model; a pass under `openai/gpt-5.6-sol` (Ctrl+P in pi) is still the model-backed confirmation.
 
 ## Related
 - [[ponytail]], [[openai-sol]], [[requirements-repo-rules]], [[capybara]]

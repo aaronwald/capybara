@@ -55,3 +55,7 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Shipped first build in `app/`: Compose app with task/category CRUD + states, prompt library, wrapper-prompt JSON round trip, dispatch to openroute (hermes/muse stubs), Keystore-backed credentials; 5 unit tests green, verified in emulator AVD `capybara`
 - Created topic [[mvp-implementation]]; updated [[capybara]], [[task]], [[wrapper-prompt]], [[credential-management]] (Android mechanism resolved), wiki/index.md
 - Toolchain: JDK via mise, Gradle 9.6 wrapper, AGP 9.4.1 (built-in Kotlin), compileSdk 37; Android SDK at ~/android-sdk
+## [2026-10-06] review | Adversarial review dry run — R2 gate on the MVP diff
+- Ran /ponytail-review per [[adversarial-review]] before the first release; findings recorded there: 4 cuts applied (−29 lines), okhttp kept for hermes/muse (ceiling noted)
+- Updated [[repo-rules-implementation-status]]: step 3 done as dry run; model-backed pass under openai/gpt-5.6-sol still pending wald
+- Rebuilt, 5/5 tests green, smoke-tested in emulator; committed as c045338
