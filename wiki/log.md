@@ -69,3 +69,5 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 ## [2026-10-07] review | Model-backed /ponytail-review — R2 gate pass
 - wald switched the session to openai/gpt-5.6-sol and ran /ponytail-review over the full app codebase: lean, 2 findings (Dispatch.kt byName dead fallback, Model.kt encodeDefaults), net −2 lines, not yet applied
 - Closed the open work item in [[repo-rules-implementation-status]]; recorded the pass on [[adversarial-review]]; index.md updated
+## [2026-10-07] review | Review cuts applied
+- Applied the 2 findings from the model-backed pass (byName dead fallback, encodeDefaults); 5/5 tests green, APK rebuilt; committed b731433; [[adversarial-review]] updated
