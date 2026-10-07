@@ -32,6 +32,10 @@ Task list by category; task create/edit; dispatch to the hermes stub (status `fa
 
 ## Deliberately skipped (ponytail: ceilings named)
 
+**Decision 2026-10-07 (wald):** proceed with openroute only — it is the single active dispatch target; hermes and muse stay backlogged until the openroute path is fully working. On-device testing follows the same split: the openroute device test needs no code change (install debug APK, paste key in Settings); hermes on-device needs the LAN URL plus a cleartext-config change and is backlogged with it.
+
+**Next step (2026-10-07, wald): physical-device test via openroute only** — plug in the phone, `adb install` the debug APK, paste the OpenRouter key in Settings, dispatch one task, verify `done` + follow-up draft in the UI.
+
 - No Room, no ViewModel/DI, no navigation library — revisit if state grows.
 - Follow-ups are created as drafts; the app never auto-dispatches them (open question in [[app-requirements-proposals]]).
 - The raw agent reply is not shown beyond `result_text`.

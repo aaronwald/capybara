@@ -82,3 +82,9 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Wire-shape mock on 8645 (four modes: 500, garbage body, prose content, bad status) — every failure path set the task to failed with the error recorded in state.json and shown in the UI (A7.1–A7.3); mock scripts live in /tmp, not the repo
 - Persistence: force-stop + cold restart keeps all tasks and statuses (files/state.json round trip)
 - Updated [[mvp-implementation]], index.md; all planned emulator-verifiable tests now done
+
+## [2026-10-07] query | Openroute-only path confirmed — hermes/muse backlogged, device test scoped
+- wald: proceed with openroute as the only active target; hermes/muse stay backlogged until the openroute path is fully working
+- On-device testing follows the split: openroute needs no code change (debug APK + key in Settings); hermes on-device needs the LAN URL + cleartext-config change, backlogged with it; no physical device attached yet
+- Updated [[hermes]], [[muse]], [[mvp-implementation]], wiki/index.md
+- Next step set (wald): physical-device test via openroute only, picked up in the next session

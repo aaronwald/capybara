@@ -11,11 +11,11 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 
 - [[capybara]] — the Android app this repository builds
 - [[wald]] — repo owner; resolving authority for open questions
-- [[hermes]] — agent harness; dispatch target; app dispatches via its local OpenAI-compatible proxy (port 8645); live testing backlogged to a future phase
-- [[muse]] — agent harness; dispatch target; **backlogged** 2026-10-06 — stub until hermes/openroute are verified live
+- [[hermes]] — agent harness; dispatch target; app dispatches via its local OpenAI-compatible proxy (port 8645); **backlogged** 2026-10-07 — openroute is the only active target until fully working
+- [[muse]] — agent harness; dispatch target; **backlogged** 2026-10-07 — stub until the openroute path is fully working
 - [[openai-sol]] — `openai/gpt-5.6-sol`; the review model for adversarial reviews
 - [[openai-astra]] — superseded redirect → [[openai-sol]]; name expunged 2026-10-04
-- [[openroute]] — dispatch target; OpenRouter (openrouter.ai), the LLM API gateway
+- [[openroute]] — dispatch target; OpenRouter (openrouter.ai), the LLM API gateway; **only active target** (live round trip verified 2026-10-07)
 - [[ponytail]] — minimal-code skill; provides the review command
 - [[pi]] — coding agent harness; hosts the wiki workflows and ponytail
 
@@ -36,4 +36,4 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 
 - [[repo-rules-implementation-status]] — gap analysis of the repository rules; review loop closed 2026-10-07: model-backed pass under openai/gpt-5.6-sol done, lean
 - [[app-requirements-proposals]] — draft amendments to the app requirements: Q4 JSON return schema, task/category CRUD, task states, failure handling; **approved by wald 2026-10-06** (2026-10-04)
-- [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute round trip verified live 2026-10-07, failure handling + persistence verified, hermes live testing backlogged (mock-verified), muse backlogged
+- [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute round trip verified live 2026-10-07, failure handling + persistence verified; **openroute is the only active target** — hermes/muse backlogged; **next step: physical-device test (openroute-only)**
