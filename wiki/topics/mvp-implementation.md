@@ -2,7 +2,7 @@
 type: topic
 sources: [requirements-app, app-requirements-proposals, credential-management, agent-harness]
 created: 2026-10-06
-updated: 2026-10-06
+updated: 2026-10-07
 ---
 
 # MVP implementation — capybara app
@@ -27,6 +27,8 @@ First working build of [[capybara]] (2026-10-06), shipped in `app/` at the repo 
 Task list by category; task create/edit; dispatch to the hermes stub (status `failed`, error recorded and shown); prompt add; saved prompt selectable in the dispatch dropdown. Later the same day: **full hermes round trip verified against a local mock of the proxy's wire shape** on port 8645 — task went `done` with result text, one follow-up created as a draft in the parent's category with its due date and prompt (A2.10/A2.11). The live round trip through the real proxy is **backlogged to a future phase (2026-10-07, wald)** — the wiring is mock-verified and done; live testing waits until a later phase.
 
 2026-10-07: **OpenRouter round trip verified live** — wald supplied the key (loaded into Settings via the emulator; held in Keystore storage per A6, never in the repo), dispatch to `openai/gpt-5.6-sol` returned `done` with result text, and one follow-up was created as a draft with its due date (A2.7–A2.11). Verified in the UI: parent task `done` + result, follow-up `draft` with due 2026-10-14.
+
+2026-10-07: **failure handling verified live** against a wire-shape mock on port 8645 (all four → task `failed`, error recorded in `state.json` and shown in the UI, per A7.1–A7.3): HTTP 500 (error `HTTP 500: …`); non-JSON response body (dispatcher wire-parse error); valid envelope with prose content (`No JSON object found in the agent reply.`); valid envelope with JSON but status `maybe` (`status must be done or failed`). Also verified: **state survives process death** — force-stop and cold restart keeps tasks, statuses, due dates (`files/state.json`).
 
 ## Deliberately skipped (ponytail: ceilings named)
 

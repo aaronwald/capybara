@@ -78,3 +78,7 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 ## [2026-10-07] query | Hermes live testing backlogged
 - wald: hermes live round trip moves to a future phase; wiring stays mock-verified. Recorded on [[hermes]], [[mvp-implementation]], index.md
 - With [[muse]] already backlogged, openroute (verified live 2026-10-07) is the only active dispatch target for now
+## [2026-10-07] test | Failure handling + persistence verified
+- Wire-shape mock on 8645 (four modes: 500, garbage body, prose content, bad status) — every failure path set the task to failed with the error recorded in state.json and shown in the UI (A7.1–A7.3); mock scripts live in /tmp, not the repo
+- Persistence: force-stop + cold restart keeps all tasks and statuses (files/state.json round trip)
+- Updated [[mvp-implementation]], index.md; all planned emulator-verifiable tests now done
