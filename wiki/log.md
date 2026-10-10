@@ -88,3 +88,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - On-device testing follows the split: openroute needs no code change (debug APK + key in Settings); hermes on-device needs the LAN URL + cleartext-config change, backlogged with it; no physical device attached yet
 - Updated [[hermes]], [[muse]], [[mvp-implementation]], wiki/index.md
 - Next step set (wald): physical-device test via openroute only, picked up in the next session
+
+## [2026-10-07] test | Physical-device test passed — MVP testing done
+- Pixel 6 (oriole) via adb: `./gradlew installDebug` + launch + openroute round trip on-device; unit tests green; wald marks MVP testing done
+- UI shipped during the session: extended FABs with icons (`material-icons-core` added), live OpenRouter model dropdown (`/api/v1/models`, text-field fallback), default research prompt pre-filled on new tasks, "Hide done" filter chip
+- Updated [[mvp-implementation]], wiki/index.md; committed with the matching code changes

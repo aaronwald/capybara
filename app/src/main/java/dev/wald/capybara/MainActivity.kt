@@ -22,8 +22,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -35,12 +36,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,14 +106,21 @@ private fun Navigation(screen: String, onSelect: (String) -> Unit) {
 @Composable
 fun TasksScreen(store: Store, onEdit: (Task) -> Unit) {
     var newCategory by remember { mutableStateOf<String?>(null) }
+    var hideDone by remember { mutableStateOf(true) }
 
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
-            Text(
-                "Tasks",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(16.dp),
-            )
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text("Tasks", style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
+                FilterChip(
+                    selected = hideDone,
+                    onClick = { hideDone = !hideDone },
+                    label = { Text("Hide done") },
+                )
+            }
             LazyColumn(Modifier.fillMaxSize()) {
                 store.categories.forEach { cat ->
                     item(key = "cat-${cat.id}") {
@@ -113,7 +132,7 @@ fun TasksScreen(store: Store, onEdit: (Task) -> Unit) {
                             if (cat.id != 0L) TextButton(onClick = { store.deleteCategory(cat.id) }) { Text("delete") }
                         }
                     }
-                    val catTasks = store.tasks.filter { it.categoryId == cat.id }
+                    val catTasks = store.tasks.filter { it.categoryId == cat.id && (!hideDone || it.status != Task.STATUS_DONE) }
                     if (catTasks.isEmpty()) {
                         item(key = "cat-${cat.id}-empty") {
                             Text(
@@ -131,11 +150,19 @@ fun TasksScreen(store: Store, onEdit: (Task) -> Unit) {
         }
 
         Column(Modifier.align(Alignment.BottomEnd).padding(bottom = 16.dp, end = 16.dp)) {
-            FloatingActionButton(
+            ExtendedFloatingActionButton(
                 onClick = { newCategory = "" },
-                modifier = Modifier.padding(bottom = 8.dp),
-            ) { Text("+ cat") }
-            ExtendedFloatingActionButton(onClick = { onEdit(Task()) }) { Text("New task") }
+                modifier = Modifier.padding(bottom = 12.dp),
+            ) {
+                Icon(Icons.Rounded.Add, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text("New Category")
+            }
+            ExtendedFloatingActionButton(onClick = { onEdit(Task()) }) {
+                Icon(Icons.Rounded.Add, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text("New task")
+            }
         }
     }
 
@@ -182,7 +209,7 @@ fun TaskEditor(store: Store, initial: Task, onClose: () -> Unit) {
     var description by remember { mutableStateOf(current?.description ?: initial.description) }
     var categoryId by remember { mutableStateOf(current?.categoryId ?: initial.categoryId) }
     var dueDate by remember { mutableStateOf(current?.dueDate ?: initial.dueDate ?: "") }
-    var prompt by remember { mutableStateOf(current?.prompt ?: initial.prompt ?: "") }
+    var prompt by remember { mutableStateOf(current?.prompt ?: initial.prompt ?: "Research this task and respond with any follow ups for investigation.") }
     var promptChoice by remember { mutableStateOf("Custom") } // Custom or a prompt name
     var target by remember { mutableStateOf("openroute") }
     var dispatching by remember { mutableStateOf(false) }
@@ -396,6 +423,20 @@ fun SettingsScreen() {
     var hermesUrl by remember { mutableStateOf(Credentials.hermesProxyUrl) }
     var hermesModel by remember { mutableStateOf(Credentials.hermesModel) }
     var saved by remember { mutableStateOf(false) }
+    var models by remember { mutableStateOf(listOf<String>()) }
+
+    LaunchedEffect(Unit) {
+        models = runCatching {
+            withContext(Dispatchers.IO) {
+                OkHttpClient().newCall(
+                    Request.Builder().url("https://openrouter.ai/api/v1/models").build(),
+                ).execute().use { it.body.string() }
+            }
+        }.getOrNull()?.let { body ->
+            Json.parseToJsonElement(body).jsonObject["data"]!!.jsonArray
+                .map { it.jsonObject["id"]!!.jsonPrimitive.content }
+        }?.sorted() ?: emptyList()
+    }
 
     fun save() {
         Credentials.openRouterKey = key.trim()
@@ -416,12 +457,16 @@ fun SettingsScreen() {
             label = { Text("OpenRouter API key") },
             modifier = Modifier.fillMaxWidth(),
         )
-        OutlinedTextField(
-            value = model,
-            onValueChange = { model = it; saved = false },
-            label = { Text("OpenRouter model id") },
-            modifier = Modifier.fillMaxWidth(),
-        )
+        if (models.isEmpty()) {
+            OutlinedTextField(
+                value = model,
+                onValueChange = { model = it; saved = false },
+                label = { Text("OpenRouter model id") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        } else {
+            Dropdown("OpenRouter model", model, models) { model = it; saved = false }
+        }
         OutlinedTextField(
             value = hermesUrl,
             onValueChange = { hermesUrl = it; saved = false },

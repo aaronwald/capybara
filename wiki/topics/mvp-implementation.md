@@ -34,7 +34,7 @@ Task list by category; task create/edit; dispatch to the hermes stub (status `fa
 
 **Decision 2026-10-07 (wald):** proceed with openroute only — it is the single active dispatch target; hermes and muse stay backlogged until the openroute path is fully working. On-device testing follows the same split: the openroute device test needs no code change (install debug APK, paste key in Settings); hermes on-device needs the LAN URL plus a cleartext-config change and is backlogged with it.
 
-**Next step (2026-10-07, wald): physical-device test via openroute only** — plug in the phone, `adb install` the debug APK, paste the OpenRouter key in Settings, dispatch one task, verify `done` + follow-up draft in the UI.
+**Physical-device test passed (2026-10-07, wald) — MVP testing done.** Pixel 6 (`oriole`) over adb: `./gradlew installDebug`, launch, and the openroute round trip on-device; wald confirms dispatch → `done` in the UI. Unit tests (`DispatchTest`) green. During the device session four UI changes shipped: both FABs are extended FABs with icons (added `material-icons-core`); the OpenRouter model is a dropdown fed live from `https://openrouter.ai/api/v1/models` (public endpoint, text-field fallback while loading); new tasks pre-fill a default research prompt ("Research this task and respond with any follow ups for investigation."); and a "Hide done" filter chip on the task list (on by default).
 
 - No Room, no ViewModel/DI, no navigation library — revisit if state grows.
 - Follow-ups are created as drafts; the app never auto-dispatches them (open question in [[app-requirements-proposals]]).
