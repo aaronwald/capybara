@@ -170,3 +170,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - GitHub run 40360242536 passed units, migrations, PostgreSQL integration, category creation, and task-form opening; strict mode then matched the page category group and form field
 - Scoped new/edit task interactions to their dialogs; no image was published. Bumped release and varlab target to 0.1.8
 - Updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-26] test | 0.1.8 browser gate exposed Category select label shape
+- GitHub run 40362577184 passed units, migrations, PostgreSQL integration, category CRUD, and task title input; the wrapped select label included option text and exact lookup timed out
+- Added an explicit accessible Category label and targeted the dialog select; no image was published. Bumped release and varlab target to 0.1.9
+- Updated [[web-port-plan]] and wiki/index.md

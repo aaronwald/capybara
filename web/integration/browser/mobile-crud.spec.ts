@@ -20,7 +20,7 @@ test("mobile category and task CRUD", async ({ page }) => {
   await page.locator(".mobile-nav").getByRole("button", { name: "New", exact: true }).click();
   const newTaskDialog = page.getByRole("dialog", { name: "New task" });
   await newTaskDialog.getByLabel("Title", { exact: true }).fill(title);
-  await newTaskDialog.getByLabel("Category", { exact: true }).selectOption({ label: category });
+  await newTaskDialog.locator("select").first().selectOption({ label: category });
   await newTaskDialog.getByRole("button", { name: "Create task", exact: true }).click();
   await expect(page.getByText(title)).toBeVisible();
 
