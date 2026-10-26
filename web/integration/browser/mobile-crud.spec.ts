@@ -10,7 +10,7 @@ test("mobile category and task CRUD", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Today's focus" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Categories" }).click();
+  await page.getByRole("button", { name: "Categories", exact: true }).click();
   await page.getByPlaceholder("New category").fill(category);
   await page.getByRole("button", { name: "Add" }).click();
   await expect(page.getByText(category)).toBeVisible();
@@ -30,7 +30,7 @@ test("mobile category and task CRUD", async ({ page }) => {
   await page.getByRole("button", { name: `Delete ${edited}` }).click();
   await expect(page.getByText(edited)).not.toBeVisible();
 
-  await page.getByRole("button", { name: "Categories" }).click();
+  await page.getByRole("button", { name: "Categories", exact: true }).click();
   await page.getByRole("button", { name: `Rename ${category}` }).click();
   const rename = `${category} renamed`;
   await page.locator(".category-rename input").fill(rename);

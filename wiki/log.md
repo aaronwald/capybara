@@ -150,3 +150,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - GitHub run 40356712833 passed unit checks and migrations, then PostgreSQL integration found stale recovery was invisible inside one data-changing CTE and a retry parameter had conflicting enum/text inference
 - Split stale recovery and claim into one transaction; used explicit job-status typing and a separate retry boolean; corrected a date assertion
 - No image was published. Bumped the release and varlab target to 0.1.4; updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-26] test | 0.1.4 passed PostgreSQL integration; browser gate caught hydration
+- GitHub run 40357085572 passed units, three migrations, and all PostgreSQL worker integration tests, then the Pixel 7 test found Next dev HMR blocked its own 127.0.0.1 origin so UI hydration did not complete
+- Changed Playwright to build and run the production server; made the mobile Categories selector exact
+- No image was published. Bumped the release and varlab target to 0.1.5; updated [[web-port-plan]] and wiki/index.md

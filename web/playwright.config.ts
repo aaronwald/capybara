@@ -9,7 +9,7 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "npm run dev",
+    command: "npm run build && npm start",
     url: "http://127.0.0.1:3000/api/health/ready",
     timeout: 120_000,
     reuseExistingServer: false,
