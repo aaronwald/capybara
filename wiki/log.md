@@ -155,3 +155,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - GitHub run 40357085572 passed units, three migrations, and all PostgreSQL worker integration tests, then the Pixel 7 test found Next dev HMR blocked its own 127.0.0.1 origin so UI hydration did not complete
 - Changed Playwright to build and run the production server; made the mobile Categories selector exact
 - No image was published. Bumped the release and varlab target to 0.1.5; updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-26] test | 0.1.5 passed PostgreSQL; mobile gate found ambiguous assertion
+- GitHub run 40357591789 passed units, migrations, and PostgreSQL integration; the mobile browser created a category successfully, then strict mode found that its name appeared in both modal and tab
+- Scoped category actions/assertions to the Categories dialog and switched Playwright to the standalone production server
+- No image was published. Bumped the release and varlab target to 0.1.6; updated [[web-port-plan]] and wiki/index.md

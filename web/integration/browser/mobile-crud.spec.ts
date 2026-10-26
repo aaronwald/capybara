@@ -11,10 +11,11 @@ test("mobile category and task CRUD", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Today's focus" })).toBeVisible();
 
   await page.getByRole("button", { name: "Categories", exact: true }).click();
-  await page.getByPlaceholder("New category").fill(category);
-  await page.getByRole("button", { name: "Add" }).click();
-  await expect(page.getByText(category)).toBeVisible();
-  await page.getByRole("button", { name: "Close" }).click();
+  const categoriesDialog = page.getByRole("dialog", { name: "Categories" });
+  await categoriesDialog.getByPlaceholder("New category").fill(category);
+  await categoriesDialog.getByRole("button", { name: "Add", exact: true }).click();
+  await expect(categoriesDialog.getByText(category, { exact: true })).toBeVisible();
+  await categoriesDialog.getByRole("button", { name: "Close" }).click();
 
   await page.getByRole("button", { name: "New" }).click();
   await page.getByLabel("Title").fill(title);
@@ -31,11 +32,11 @@ test("mobile category and task CRUD", async ({ page }) => {
   await expect(page.getByText(edited)).not.toBeVisible();
 
   await page.getByRole("button", { name: "Categories", exact: true }).click();
-  await page.getByRole("button", { name: `Rename ${category}` }).click();
+  await categoriesDialog.getByRole("button", { name: `Rename ${category}` }).click();
   const rename = `${category} renamed`;
-  await page.locator(".category-rename input").fill(rename);
-  await page.getByRole("button", { name: `Save ${category}` }).click();
-  await expect(page.getByText(rename)).toBeVisible();
-  await page.getByRole("button", { name: `Delete ${rename}` }).click();
-  await expect(page.getByText(rename)).not.toBeVisible();
+  await categoriesDialog.locator(".category-rename input").fill(rename);
+  await categoriesDialog.getByRole("button", { name: `Save ${category}` }).click();
+  await expect(categoriesDialog.getByText(rename, { exact: true })).toBeVisible();
+  await categoriesDialog.getByRole("button", { name: `Delete ${rename}` }).click();
+  await expect(categoriesDialog.getByText(rename, { exact: true })).not.toBeVisible();
 });
