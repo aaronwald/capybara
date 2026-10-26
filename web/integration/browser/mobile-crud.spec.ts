@@ -18,14 +18,16 @@ test("mobile category and task CRUD", async ({ page }) => {
   await categoriesDialog.getByRole("button", { name: "Close" }).click();
 
   await page.locator(".mobile-nav").getByRole("button", { name: "New", exact: true }).click();
-  await page.getByLabel("Title").fill(title);
-  await page.getByLabel("Category").selectOption({ label: category });
-  await page.getByRole("button", { name: "Create task" }).click();
+  const newTaskDialog = page.getByRole("dialog", { name: "New task" });
+  await newTaskDialog.getByLabel("Title", { exact: true }).fill(title);
+  await newTaskDialog.getByLabel("Category", { exact: true }).selectOption({ label: category });
+  await newTaskDialog.getByRole("button", { name: "Create task", exact: true }).click();
   await expect(page.getByText(title)).toBeVisible();
 
   await page.getByRole("button", { name: `Edit ${title}` }).click();
-  await page.getByLabel("Title").fill(edited);
-  await page.getByRole("button", { name: "Save changes" }).click();
+  const editTaskDialog = page.getByRole("dialog", { name: "Edit task" });
+  await editTaskDialog.getByLabel("Title", { exact: true }).fill(edited);
+  await editTaskDialog.getByRole("button", { name: "Save changes", exact: true }).click();
   await expect(page.getByText(edited)).toBeVisible();
 
   await page.getByRole("button", { name: `Delete ${edited}` }).click();

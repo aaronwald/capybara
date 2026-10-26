@@ -165,3 +165,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - GitHub run 40359789150 passed units, migrations, PostgreSQL integration, and category CRUD in the production browser; strict mode then matched both New task and mobile New
 - Scoped New to `.mobile-nav`; no image was published. Bumped release and varlab target to 0.1.7
 - Updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-26] test | 0.1.7 browser gate found Category selector ambiguity
+- GitHub run 40360242536 passed units, migrations, PostgreSQL integration, category creation, and task-form opening; strict mode then matched the page category group and form field
+- Scoped new/edit task interactions to their dialogs; no image was published. Bumped release and varlab target to 0.1.8
+- Updated [[web-port-plan]] and wiki/index.md
