@@ -135,3 +135,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Fixed `npm run typecheck` to run `next typegen` first; verified after deleting `.next`
 - Bumped the release and varlab image target to 0.1.1; no 0.1.0 image was published
 - Updated [[web-port-plan]], wiki/index.md, and the varlab implementation note
+
+## [2026-10-26] test | 0.1.1 release gate blocked migration executable
+- GitHub run 40356043025 passed clean-checkout unit checks, then stopped before data changes or image publication because `tsx` compiled top-level await as CommonJS
+- Wrapped migration and worker executables in async `main()` functions; smoke test reaches database connection without a transform error
+- Bumped the release and varlab target to 0.1.2; updated [[web-port-plan]] and wiki/index.md
