@@ -77,7 +77,7 @@ describe("PostgreSQL dispatch flow", () => {
     const followUp = await getPool().query("select title, due_date, prompt, status from tasks where id <> $1", [taskId]);
     expect(task.rows[0]).toMatchObject({ status: "done", result_text: "completed" });
     expect(followUp.rows[0]).toMatchObject({ title: "Verify result", prompt: "verify", status: "draft" });
-    expect(String(followUp.rows[0].due_date)).toContain("2026-11-01");
+    expect(new Date(followUp.rows[0].due_date).toISOString().slice(0, 10)).toBe("2026-11-01");
   });
 
   it("delays a retry and stores no provider body", async () => {

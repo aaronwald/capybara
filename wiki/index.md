@@ -37,5 +37,5 @@ Catalog of every wiki page, grouped by category. Updated on every ingest, filed 
 - [[repo-rules-implementation-status]] — gap analysis of the repository rules; review loop closed 2026-10-07: model-backed pass under openai/gpt-5.6-sol done, lean
 - [[app-requirements-proposals]] — draft amendments to the app requirements: Q4 JSON return schema, task/category CRUD, task states, failure handling; **approved by wald 2026-10-06** (2026-10-04)
 - [[web-port-homelab]] — assessment of the TypeScript web replacement hosted on varlab: server-side dispatch, storage, and teamwald-shaped deployment (2026-10-25)
-- [[web-port-plan]] — active no-overlap implementation: TypeScript/Next.js + PostgreSQL worker + Authentik + varlab; 0.1.3 release target after 0.1.0–0.1.2 CI gates stopped safely before publication (updated 2026-10-26)
+- [[web-port-plan]] — active no-overlap implementation: TypeScript/Next.js + PostgreSQL worker + Authentik + varlab; 0.1.4 release target after 0.1.0–0.1.3 CI gates stopped safely before publication (updated 2026-10-26)
 - [[mvp-implementation]] — first working build of the app: stack, verified flows, known ceilings; openroute round trip verified live 2026-10-07, failure handling + persistence verified; **physical-device test passed on a Pixel 6 2026-10-07 — MVP testing done**; openroute is the only active target, hermes/muse backlogged

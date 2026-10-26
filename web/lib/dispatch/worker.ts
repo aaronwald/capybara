@@ -24,27 +24,38 @@ interface TaskRecord {
 }
 
 export async function claimJob(): Promise<ClaimedJob | null> {
-  const result = await getPool().query<ClaimedJob>(`
-    with recovered as (
+  const client = await getPool().connect();
+  try {
+    await client.query("begin");
+    await client.query(`
       update dispatch_jobs
       set status = 'pending', started_at = null, next_attempt_at = now(),
           last_error = 'Worker stopped before the dispatch completed.'
       where status = 'running' and started_at < now() - interval '3 minutes'
-    ), next_job as (
-      select id
-      from dispatch_jobs
-      where status = 'pending' and next_attempt_at <= now()
-      order by next_attempt_at, created_at
-      for update skip locked
-      limit 1
-    )
-    update dispatch_jobs j
-    set status = 'running', started_at = now(), attempts = attempts + 1
-    from next_job
-    where j.id = next_job.id
-    returning j.id, j.task_id, j.model, j.attempts
-  `);
-  return result.rows[0] ?? null;
+    `);
+    const result = await client.query<ClaimedJob>(`
+      with next_job as (
+        select id
+        from dispatch_jobs
+        where status = 'pending' and next_attempt_at <= now()
+        order by next_attempt_at, created_at
+        for update skip locked
+        limit 1
+      )
+      update dispatch_jobs j
+      set status = 'running', started_at = now(), attempts = attempts + 1
+      from next_job
+      where j.id = next_job.id
+      returning j.id, j.task_id, j.model, j.attempts
+    `);
+    await client.query("commit");
+    return result.rows[0] ?? null;
+  } catch (error) {
+    await client.query("rollback");
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 export async function processJob(job: ClaimedJob): Promise<void> {
@@ -133,13 +144,13 @@ async function failJob(job: ClaimedJob, message: string, retryable: boolean): Pr
     const retryDelaySeconds = 30 * 2 ** Math.max(0, job.attempts - 1);
     const updated = await client.query(
       `update dispatch_jobs
-       set status = $2, last_error = $3,
-           next_attempt_at = case when $2 = 'pending' then now() + ($4 * interval '1 second') else next_attempt_at end,
-           started_at = case when $2 = 'pending' then null else started_at end,
-           finished_at = case when $2 = 'failed' then now() else null end
-       where id = $1 and status = 'running' and attempts = $5
+       set status = $2::job_status, last_error = $3,
+           next_attempt_at = case when $5 then now() + ($4 * interval '1 second') else next_attempt_at end,
+           started_at = case when $5 then null else started_at end,
+           finished_at = case when $5 then null else now() end
+       where id = $1 and status = 'running' and attempts = $6
        returning task_id`,
-      [job.id, shouldRetry ? "pending" : "failed", message, retryDelaySeconds, job.attempts],
+      [job.id, shouldRetry ? "pending" : "failed", message, retryDelaySeconds, shouldRetry, job.attempts],
     );
     if (updated.rowCount !== 1) {
       await client.query("rollback");

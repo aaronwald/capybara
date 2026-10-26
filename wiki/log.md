@@ -145,3 +145,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - GitHub run 40356402931 passed unit checks and all database migrations, then stopped before integration execution or image publication because standalone Vitest did not resolve worker `@/` imports
 - Replaced worker executable aliases with relative imports; an isolated integration load now reaches the database connection
 - Bumped the release and varlab target to 0.1.3; updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-26] test | 0.1.3 release gate exposed PostgreSQL worker bugs
+- GitHub run 40356712833 passed unit checks and migrations, then PostgreSQL integration found stale recovery was invisible inside one data-changing CTE and a retry parameter had conflicting enum/text inference
+- Split stale recovery and claim into one transaction; used explicit job-status typing and a separate retry boolean; corrected a date assertion
+- No image was published. Bumped the release and varlab target to 0.1.4; updated [[web-port-plan]] and wiki/index.md
