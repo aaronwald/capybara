@@ -160,3 +160,8 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - GitHub run 40357591789 passed units, migrations, and PostgreSQL integration; the mobile browser created a category successfully, then strict mode found that its name appeared in both modal and tab
 - Scoped category actions/assertions to the Categories dialog and switched Playwright to the standalone production server
 - No image was published. Bumped the release and varlab target to 0.1.6; updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-26] test | 0.1.6 browser gate found mobile New selector ambiguity
+- GitHub run 40359789150 passed units, migrations, PostgreSQL integration, and category CRUD in the production browser; strict mode then matched both New task and mobile New
+- Scoped New to `.mobile-nav`; no image was published. Bumped release and varlab target to 0.1.7
+- Updated [[web-port-plan]] and wiki/index.md

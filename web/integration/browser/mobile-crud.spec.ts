@@ -17,7 +17,7 @@ test("mobile category and task CRUD", async ({ page }) => {
   await expect(categoriesDialog.getByText(category, { exact: true })).toBeVisible();
   await categoriesDialog.getByRole("button", { name: "Close" }).click();
 
-  await page.getByRole("button", { name: "New" }).click();
+  await page.locator(".mobile-nav").getByRole("button", { name: "New", exact: true }).click();
   await page.getByLabel("Title").fill(title);
   await page.getByLabel("Category").selectOption({ label: category });
   await page.getByRole("button", { name: "Create task" }).click();
