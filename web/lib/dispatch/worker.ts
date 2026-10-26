@@ -1,6 +1,6 @@
-import { parseReturnData, wrapperPrompt } from "@/lib/domain/dispatch";
-import type { Task } from "@/lib/domain/model";
-import { getPool } from "@/lib/db/client";
+import { getPool } from "../db/client";
+import { parseReturnData, wrapperPrompt } from "../domain/dispatch";
+import type { Task } from "../domain/model";
 
 import { dispatchOpenRouter, ProviderError } from "./openrouter";
 

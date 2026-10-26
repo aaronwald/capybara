@@ -1,5 +1,5 @@
-import { claimJob, processJob } from "@/lib/dispatch/worker";
-import { getPool } from "@/lib/db/client";
+import { getPool } from "../lib/db/client";
+import { claimJob, processJob } from "../lib/dispatch/worker";
 
 async function main(): Promise<void> {
   let stopping = false;
