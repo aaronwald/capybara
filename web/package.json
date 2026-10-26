@@ -1,13 +1,13 @@
 {
   "name": "web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build && npm run worker:build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:integration": "vitest run --config vitest.integration.config.mts",
     "test:browser": "playwright test",

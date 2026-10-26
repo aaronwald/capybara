@@ -129,3 +129,9 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Final verdict: "Looks good. Ship." Unit tests: 16; lint/typecheck/build/audit and Helm lint/render pass
 - Live PostgreSQL/browser workflow, image, Authentik, dispatch, policy, backup, and restore remain explicit activation gates
 - Updated [[adversarial-review]], [[web-port-plan]], [[capybara]], and wiki/index.md
+
+## [2026-10-26] test | 0.1.0 release gate blocked clean-checkout typecheck
+- GitHub run 40355673639 stopped before migration, browser tests, or image publication because Next.js generated `LayoutProps`/`RouteContext` types did not exist on a clean checkout
+- Fixed `npm run typecheck` to run `next typegen` first; verified after deleting `.next`
+- Bumped the release and varlab image target to 0.1.1; no 0.1.0 image was published
+- Updated [[web-port-plan]], wiki/index.md, and the varlab implementation note
