@@ -2,12 +2,12 @@
 type: topic
 sources: [requirements-app, app-requirements-proposals, credential-management, agent-harness]
 created: 2026-10-06
-updated: 2026-10-07
+updated: 2026-10-26
 ---
 
 # MVP implementation — capybara app
 
-First working build of [[capybara]] (2026-10-06), shipped in `app/` at the repo root. wald approved the [[app-requirements-proposals]] as the working spec the same day ("go, use defaults").
+First working Android build of [[capybara]] (2026-10-06), formerly shipped in `app/` at the repo root. wald approved the [[app-requirements-proposals]] as the working spec the same day ("go, use defaults"). **Historical as of 2026-10-26:** wald chose a TypeScript web replacement with no Android overlap. The final source is preserved at git tag `android-final`; the active-tree implementation follows [[web-port-plan]].
 
 ## What shipped
 
@@ -45,4 +45,4 @@ Task list by category; task create/edit; dispatch to the hermes stub (status `fa
 - The hermes proxy URL default assumes the emulator; a real phone needs a LAN URL in Settings.
 
 ## Related
-- [[capybara]], [[requirements-app]], [[app-requirements-proposals]], [[wrapper-prompt]], [[prompt]], [[task]], [[credential-management]], [[android-simulator]], [[openroute]], [[hermes]], [[muse]], [[openai-sol]], [[ponytail]]
+- [[capybara]], [[requirements-app]], [[app-requirements-proposals]], [[wrapper-prompt]], [[prompt]], [[task]], [[credential-management]], [[android-simulator]], [[openroute]], [[hermes]], [[muse]], [[openai-sol]], [[ponytail]], [[web-port-homelab]], [[web-port-plan]]

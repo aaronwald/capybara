@@ -93,3 +93,39 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Pixel 6 (oriole) via adb: `./gradlew installDebug` + launch + openroute round trip on-device; unit tests green; wald marks MVP testing done
 - UI shipped during the session: extended FABs with icons (`material-icons-core` added), live OpenRouter model dropdown (`/api/v1/models`, text-field fallback), default research prompt pre-filled on new tasks, "Hide done" filter chip
 - Updated [[mvp-implementation]], wiki/index.md; committed with the matching code changes
+
+## [2026-10-25] query | Web port to varlab (homelab) assessed
+- Created topics/web-port-homelab.md: hosting is copy-paste from the teamwald pattern (chart + rendered + ArgoCD); real work is server-side dispatch, storage (1 replica + SQLite vs Postgres), async dispatch, Next.js UI rewrite
+- varlab facts (K3s/Flux/ArgoCD, Traefik, cert-manager, Authentik, Longhorn, Velero) read directly from the varlab repo — no raw source ingested yet; drop one into raw/ for formal grounding
+- Open decisions for wald: amend A1.1 (web alongside/instead of Android), replace vs complement phone app, storage choice
+- Updated wiki/index.md, [[capybara]], [[mvp-implementation]] Related links
+
+## [2026-10-25] query | Sol model check for dispatch
+- Checked OpenRouter /api/v1/models: no "5.66" exists; sol family = gpt-5.6-sol(-pro), gpt-6-sol(-pro), gpt-6.1-sol(-pro), all 1.05M ctx, 6.x at half the 5.6 pricing
+- Dispatch default in the app stays openai/gpt-5.6-sol per [[openai-sol]]; trivial lookup, no page changes
+
+## [2026-10-26] query | Web-only port plan approved — no Android overlap
+- Wald chose the TypeScript web app as the only supported platform; no dual-client period or synchronization
+- Created [[web-port-plan]] with Next.js, PostgreSQL durable jobs, Authentik, OpenRouter-only first release, and varlab deployment phases
+- Updated [[web-port-homelab]], [[capybara]], [[mvp-implementation]], and wiki/index.md
+
+## [2026-10-26] implementation | TypeScript web replacement started
+- Tagged the final Android commit as `android-final`; removed Android and Gradle files from the active tree before web work
+- Added `web/`: Next.js 16.4.3 + TypeScript, responsive modern desktop/mobile UI preview, ported domain/wrapper/parser code
+- Added PostgreSQL schema + tracked migration runner; category/prompt/task CRUD API; durable dispatch route and worker; server-only OpenRouter adapter; health/model routes
+- Verification: 14 Vitest tests, ESLint, TypeScript check, and production build pass; npm audit reports zero findings
+- PostgreSQL integration, live OpenRouter dispatch, UI-to-API wiring, Docker, and varlab deployment remain
+
+## [2026-10-26] implementation | Web UI wired and varlab deployment staged
+- Replaced typed preview data with live task/category/prompt CRUD, search/filtering, model selection, dispatch, polling, result/error display, and responsive forms
+- Added standalone Docker output plus compiled migration/worker entry points and a GHCR image workflow; test/lint/typecheck/build pass, npm audit clean
+- Added a varlab Helm chart for web + worker + PostgreSQL 17 + Traefik/Authentik ingress; Helm 3.16.3 checksum verified, chart linted, and 300-line manifest rendered
+- Added the ArgoCD Application under `argocd/drafts`, not `argocd/apps`; no cluster resources were applied. Activation waits on image publication and SealedSecrets
+- Updated [[web-port-plan]], [[capybara]], wiki/index.md, and both repositories' implementation notes
+
+## [2026-10-26] review | TypeScript web release adversarial gate passed
+- Installed ponytail project-locally and ran six reviews with `openai/gpt-5.6-sol` across capybara and the varlab deployment
+- Fixed worker packaging, retries/recovery/fencing, delete race, forwarded Origin, mobile CRUD, safe errors, least-privilege database roles, secret exclusion, GCS logical backup, NetworkPolicy scope, and Argo deletion guards
+- Final verdict: "Looks good. Ship." Unit tests: 16; lint/typecheck/build/audit and Helm lint/render pass
+- Live PostgreSQL/browser workflow, image, Authentik, dispatch, policy, backup, and restore remain explicit activation gates
+- Updated [[adversarial-review]], [[web-port-plan]], [[capybara]], and wiki/index.md

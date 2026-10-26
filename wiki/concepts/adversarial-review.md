@@ -2,7 +2,7 @@
 type: concept
 sources: [requirements-repo-rules, app-requirements-proposals]
 created: 2026-10-04
-updated: 2026-10-07
+updated: 2026-10-26
 ---
 
 # Adversarial review
@@ -14,6 +14,8 @@ Tooling: the [[ponytail]] skill's `/ponytail-review` command, which hands back a
 **First dry run (2026-10-06):** ran against the MVP diff before the first release ([[mvp-implementation]]). Findings: 4 cuts applied (dispatch() re-signatured to 3 params, merged duplicate store lookups, Store commit() refactor, dead NameDialog param) for −29 lines; okhttp kept for the coming hermes/muse endpoints (swap ceiling noted). The dry run used the session's default model; a pass under `openai/gpt-5.6-sol` (Ctrl+P in pi) is still the model-backed confirmation.
 
 **Model-backed pass (2026-10-07):** wald switched the session to `openai/gpt-5.6-sol` via openrouter and ran `/ponytail-review` over the full `app/` codebase. Findings: 2 — dead fallback in `Targets.byName` (Dispatch.kt) and the unnecessary `encodeDefaults = true` in the shared Json config (Model.kt), net −2 lines. Applied 2026-10-07 (commit b731433); 5/5 tests green, debug APK rebuilt. Verdict: lean, gate passed. This closes the open work item in [[repo-rules-implementation-status]].
+
+**Web replacement release gate (2026-10-26):** six `ponytail-review` passes ran under `openai/gpt-5.6-sol` across capybara and the varlab deployment. The reviews found and drove fixes for worker packaging, stale-job recovery and attempt fencing, retries, deletion races, forwarded Origin handling, mobile CRUD, provider-error leakage, database least privilege, secret backup exclusion, logical GCS backup, NetworkPolicy scope, Argo deletion guards, and release integration gates. Final verdict: **“Looks good. Ship.”** Live PostgreSQL/browser workflow, dispatch, policy, backup, and restore checks remain deployment acceptance gates, not code-review findings.
 
 ## Related
 - [[ponytail]], [[openai-sol]], [[requirements-repo-rules]], [[capybara]]
