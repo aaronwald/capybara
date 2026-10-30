@@ -181,3 +181,9 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Checked varlab: chart targets 0.1.9, render workflow 40365317508 passed, both SealedSecrets are excluded from backup
 - Created Authentik `capybara-proxy` (forward_single, `https://capybara.varshtat.com`, TeamWald flows) and `Capybara` application on the embedded outpost; verified in blueprint export. ArgoCD activation remains
 - Updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-30] lint | Reviewed rendered varlab manifests for 0.1.9 activation
+- Reviewed `rendered/capybara/manifests.yaml` (CI-rendered at eb8ddefd): image 0.1.9, Authentik forward-auth ingress, SealedSecrets excluded from backup, namespace and backup PVC protected from prune
+- Both init containers run migrations; `pg_advisory_lock` in `web/scripts/migrate.ts` serializes them. `capybara_app` grants come from migration 0003
+- No blockers. Open risk: the OpenRouter account hit its credit limit on 2026-10-27, so live dispatch may fail with 402 until credit is added
+- Cluster has no `capybara` namespace yet; ArgoCD app-of-apps watches `argocd/apps/`. Updated [[web-port-plan]]
