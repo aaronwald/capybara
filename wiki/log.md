@@ -175,3 +175,9 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - GitHub run 40362577184 passed units, migrations, PostgreSQL integration, category CRUD, and task title input; the wrapped select label included option text and exact lookup timed out
 - Added an explicit accessible Category label and targeted the dialog select; no image was published. Bumped release and varlab target to 0.1.9
 - Updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-27] test | 0.1.9 passed release gate and published image
+- GitHub run 40365345682 passed units, migrations, PostgreSQL dispatch flow, and mobile CRUD; pushed `ghcr.io/aaronwald/capybara:0.1.9`
+- Checked varlab: chart targets 0.1.9, render workflow 40365317508 passed, both SealedSecrets are excluded from backup
+- Created Authentik `capybara-proxy` (forward_single, `https://capybara.varshtat.com`, TeamWald flows) and `Capybara` application on the embedded outpost; verified in blueprint export. ArgoCD activation remains
+- Updated [[web-port-plan]] and wiki/index.md
