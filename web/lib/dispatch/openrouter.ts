@@ -17,10 +17,19 @@ export class ProviderError extends Error {
   }
 }
 
+// OpenRouter reserves credit for max_tokens up front; an uncapped request
+// reserves the model's full output window and fails with 402 on a low balance.
+const DEFAULT_MAX_TOKENS = 8192;
+
+function maxTokens(value = process.env.OPENROUTER_MAX_TOKENS): number {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : DEFAULT_MAX_TOKENS;
+}
+
 export async function dispatchOpenRouter(
   payload: string,
   model: string,
-  options: { apiKey?: string; baseUrl?: string; signal?: AbortSignal } = {},
+  options: { apiKey?: string; baseUrl?: string; maxTokens?: number; signal?: AbortSignal } = {},
 ): Promise<string> {
   const apiKey = options.apiKey ?? process.env.OPENROUTER_API_KEY;
   if (!apiKey) throw new ProviderError("OPENROUTER_API_KEY is not configured.", false);
@@ -39,6 +48,7 @@ export async function dispatchOpenRouter(
       body: JSON.stringify({
         model,
         messages: [{ role: "user", content: payload }],
+        max_tokens: options.maxTokens ?? maxTokens(),
       }),
       signal: options.signal,
     });
@@ -49,6 +59,9 @@ export async function dispatchOpenRouter(
     );
   }
 
+  if (response.status === 402) {
+    throw new ProviderError("OpenRouter returned HTTP 402: the account has insufficient credits.", false);
+  }
   if (!response.ok) {
     throw new ProviderError(
       `OpenRouter returned HTTP ${response.status}.`,

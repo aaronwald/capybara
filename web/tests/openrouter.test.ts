@@ -15,6 +15,24 @@ describe("OpenRouter adapter", () => {
     );
   });
 
+  it("caps the reserved output tokens", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(Response.json({
+      choices: [{ message: { content: "done" } }],
+    }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await dispatchOpenRouter("task", "model", { apiKey: "test" });
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).max_tokens).toBe(8192);
+  });
+
+  it("reports insufficient credits without retry", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("no credit", { status: 402 })));
+
+    const error = await dispatchOpenRouter("task", "model", { apiKey: "test" }).catch((value) => value);
+    expect(error.message).toContain("insufficient credits");
+    expect(error.retryable).toBe(false);
+  });
+
   it("marks rate limits as retryable", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("slow down", { status: 429 })));
 
