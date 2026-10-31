@@ -193,3 +193,9 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - First live dispatch hit OpenRouter 402 (uncapped `max_tokens`, about $0.54 balance). Release 0.1.10 (run 41147306183) caps `max_tokens` at 8192; live dispatch then returned `done`
 - varlab: claim-template defaults stop StatefulSet drift; backup PVC moved to RWO with pod affinity after an RWX mount failure on k3s-node1; backup and scratch restore verified
 - Updated [[web-port-plan]] and wiki/index.md
+
+## [2026-10-31] test | Capybara NetworkPolicies enforced on varlab
+- Staged rollout per the varlab runbook: postgres → worker + backup → web → default-deny, with in-pod path checks after each stage
+- Allowed paths stayed open (Traefik → web, web/worker → PostgreSQL + OpenRouter, probes, migrations, backup); unrelated pod → Service, PostgreSQL → internet, and worker → cluster are denied
+- varlab `6059c117` enables the chart policies; ArgoCD adopted them (Synced/Healthy at `f0829248`)
+- Updated [[web-port-plan]] and wiki/index.md
