@@ -187,3 +187,9 @@ Append-only record of wiki operations. Entries start with `## [2026-10-04] <inge
 - Both init containers run migrations; `pg_advisory_lock` in `web/scripts/migrate.ts` serializes them. `capybara_app` grants come from migration 0003
 - No blockers. Open risk: the OpenRouter account hit its credit limit on 2026-10-27, so live dispatch may fail with 402 until credit is added
 - Cluster has no `capybara` namespace yet; ArgoCD app-of-apps watches `argocd/apps/`. Updated [[web-port-plan]]
+
+## [2026-10-30] test | Web port live on varlab at 0.1.10
+- Activated ArgoCD `capybara` (varlab `288e58b5`); pods, migrations, health checks, TLS, and the Authentik redirect verified
+- First live dispatch hit OpenRouter 402 (uncapped `max_tokens`, about $0.54 balance). Release 0.1.10 (run 41147306183) caps `max_tokens` at 8192; live dispatch then returned `done`
+- varlab: claim-template defaults stop StatefulSet drift; backup PVC moved to RWO with pod affinity after an RWX mount failure on k3s-node1; backup and scratch restore verified
+- Updated [[web-port-plan]] and wiki/index.md
